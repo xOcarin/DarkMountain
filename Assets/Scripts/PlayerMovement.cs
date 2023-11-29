@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform pivot;
     public float rotateSpeed;
 
+    public static bool dialogue = false;
+
    
 
     void Start()
@@ -40,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = playerCamera.transform.TransformDirection(Vector3.forward);
         Vector3 right = playerCamera.transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetButton("Sprint");
+        bool isRunning = false;
 
         float curSpeedX = 0;
         float curSpeedY = 0;
@@ -50,12 +52,14 @@ public class PlayerMovement : MonoBehaviour
 
         float inputVertical = Input.GetAxis("Vertical");
         float inputHorizontal = Input.GetAxis("Horizontal");
-
-        if (inputVertical != 0 || inputHorizontal != 0)
+        if (!dialogue)
         {
-            curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
-            curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
-            isWalking = true;
+            if (inputVertical != 0 || inputHorizontal != 0)
+            {
+                curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
+                curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
+                isWalking = true;
+            }   
         }
         
 
