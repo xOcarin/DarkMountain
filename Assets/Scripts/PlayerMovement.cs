@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public static bool dialogue = false;
 
-   
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         characterAnimator = characterModel.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -59,8 +60,26 @@ public class PlayerMovement : MonoBehaviour
                 curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
                 curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
                 isWalking = true;
-            }   
+
+                if (!audioSource.isPlaying && characterController.isGrounded)
+                {
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                if (audioSource.isPlaying || !characterController.isGrounded)
+                {
+                    audioSource.Stop();
+                }
+
+                isWalking = false;
+            }
         }
+
+        
+        
+        
         
 
         float movementDirectionY = moveDirection.y;
@@ -69,6 +88,10 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
         else
         {
