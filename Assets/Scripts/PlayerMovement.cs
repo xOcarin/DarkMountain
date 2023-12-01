@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public static bool dialogue = false;
 
     private AudioSource audioSource;
+    
+    public static bool isWalking = false;
+    public static bool isJumping;
 
     void Start()
     {
@@ -48,8 +51,8 @@ public class PlayerMovement : MonoBehaviour
         float curSpeedX = 0;
         float curSpeedY = 0;
 
-        bool isWalking = false;
-        bool isJumping;
+        isWalking = false;
+        
 
         float inputVertical = Input.GetAxis("Vertical");
         float inputHorizontal = Input.GetAxis("Horizontal");
@@ -60,19 +63,10 @@ public class PlayerMovement : MonoBehaviour
                 curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
                 curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
                 isWalking = true;
-
-                if (!audioSource.isPlaying && characterController.isGrounded)
-                {
-                    audioSource.Play();
-                }
+                
             }
             else
             {
-                if (audioSource.isPlaying || !characterController.isGrounded)
-                {
-                    audioSource.Stop();
-                }
-
                 isWalking = false;
             }
         }
@@ -88,10 +82,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
-            if (audioSource.isPlaying)
-            {
-                audioSource.Stop();
-            }
         }
         else
         {
