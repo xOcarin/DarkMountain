@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
         
         //move player in different directions based on camera look direction
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && canMove)
         {
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));

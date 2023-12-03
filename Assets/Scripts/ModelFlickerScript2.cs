@@ -1,25 +1,25 @@
 using System.Collections;
 using UnityEngine;
 
-public class ModelFlickerScript : MonoBehaviour
+public class ModelFlickerScript2 : MonoBehaviour
 {
     private Material originalMaterial;
     public Material pulseMaterial; // Material to swap with
-    private SkinnedMeshRenderer skinnedMeshRenderer;
+    private MeshRenderer meshRenderer;
     private bool isFlickering = false;
 
     void Start()
     {
-        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+        meshRenderer = GetComponent<MeshRenderer>();
 
-        if (skinnedMeshRenderer == null)
+        if (meshRenderer == null)
         {
-            Debug.LogError("SkinnedMeshRenderer component not found!");
-            enabled = false; // Disable the script if SkinnedMeshRenderer is not found
+            Debug.LogError("MeshRenderer component not found!");
+            enabled = false; // Disable the script if MeshRenderer is not found
         }
 
         // Store the original material
-        originalMaterial = skinnedMeshRenderer.material;
+        originalMaterial = meshRenderer.material;
 
         // Set pulseMaterial to a new material with fully transparent color
         pulseMaterial = new Material(Shader.Find("Transparent/Diffuse"));
@@ -38,7 +38,7 @@ public class ModelFlickerScript : MonoBehaviour
     {
         if (pulseMaterial != null)
         {
-            skinnedMeshRenderer.material = Instantiate(pulseMaterial); // Instantiate a new material to avoid modifying the original
+            meshRenderer.material = Instantiate(pulseMaterial); // Instantiate a new material to avoid modifying the original
         }
         else
         {
@@ -48,7 +48,7 @@ public class ModelFlickerScript : MonoBehaviour
 
     public void ChangeBackToOriginalMaterial()
     {
-        skinnedMeshRenderer.material = originalMaterial;
+        meshRenderer.material = originalMaterial;
     }
 
     IEnumerator FlickerModel()

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class HealthScript : MonoBehaviour
 {
     public float playerHealth;
-    public bool invulnerable;
+    public static bool invulnerable;
     
     public float knockbackForce;
     
@@ -66,7 +66,6 @@ public class HealthScript : MonoBehaviour
             playerHealth--;
             Debug.Log("Health: " + playerHealth);
             StartCoroutine(StartIFrames());
-            StartCoroutine(FlickerModel());
             Vector3 forceDirection = (transform.position - other.transform.position).normalized;
             Vector3 hitForceVector = forceDirection * knockbackForce;
             StartCoroutine(Knockback(hitForceVector));
@@ -89,21 +88,6 @@ public class HealthScript : MonoBehaviour
         invulnerable = true;
         yield return new WaitForSeconds(iFrameDuration);
         invulnerable = false;
-        ModelFlickerScript.ChangeBackToOriginalMaterial();
-    }
-    
-    IEnumerator FlickerModel()
-    {
-        Debug.LogError("FLICKERING!!");
-        float timer = 0f;
-
-        while (timer < iFrameDuration)
-        {
-            ModelFlickerScript.ChangeMaterial();
-            yield return new WaitForSeconds(0.5f);
-            Debug.LogError("SHOULD BE to original");
-            ModelFlickerScript.ChangeBackToOriginalMaterial();
-        }
     }
     
     private IEnumerator StopMovement()
@@ -129,6 +113,9 @@ public class HealthScript : MonoBehaviour
             yield return null;
         }
     }
+
+
+    
     
     
 }

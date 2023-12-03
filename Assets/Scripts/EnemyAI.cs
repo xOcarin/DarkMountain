@@ -79,7 +79,7 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log("IS CHASING!!!!!");
         agent.SetDestination(player.position);
     }
-    /*
+    
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
@@ -97,5 +97,5 @@ public class EnemyAI : MonoBehaviour
     {
         alreadyAttacked = false;
     }
-    */
+    
 }
