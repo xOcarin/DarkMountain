@@ -33,9 +33,12 @@ public class PlayerInteract : MonoBehaviour
                     // Check if the collider has a child before trying to access it
                     if (prevCollider.transform.childCount > 0)
                     {
-                        prevCollider.transform.GetChild(0).gameObject.SetActive(false);
-                        InRange = false;
-                        playerAudioHandler.hasPlayed = false;
+                        if(prevCollider.gameObject.CompareTag("NPC"))
+                        {
+                            prevCollider.transform.GetChild(0).gameObject.SetActive(false);
+                            InRange = false;
+                            playerAudioHandler.hasPlayed = false;
+                        }
                     }
                 }
             }

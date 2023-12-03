@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController characterController;
 
-    private bool canMove = true;
+    public static bool canMove = true;
     
     public GameObject characterModel;
     private Animator characterAnimator;
@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     
     public static bool isWalking = false;
     public static bool isJumping;
+    
+    
 
     void Start()
     {
@@ -56,9 +58,9 @@ public class PlayerMovement : MonoBehaviour
 
         float inputVertical = Input.GetAxis("Vertical");
         float inputHorizontal = Input.GetAxis("Horizontal");
-        if (!dialogue)
+        if (canMove)
         {
-            if (inputVertical != 0 || inputHorizontal != 0)
+            if ((inputVertical != 0 || inputHorizontal != 0 ))
             {
                 curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
                 curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
@@ -97,19 +99,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
         }
-
-        if (Input.GetKey(KeyCode.R) && canMove)
-        {
-            characterController.height = crouchHeight;
-            walkSpeed = crouchSpeed;
-            runSpeed = crouchSpeed;
-        }
-        else
-        {
-            characterController.height = defaultHeight;
-            walkSpeed = 6f;
-            runSpeed = 12f;
-        }
+        
         
         
         characterAnimator.SetBool("isJumping", isJumping);
