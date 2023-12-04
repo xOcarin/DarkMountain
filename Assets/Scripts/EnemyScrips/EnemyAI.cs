@@ -90,15 +90,22 @@ public class EnemyAI : MonoBehaviour
     private void AttackPlayer()
     {
         agent.SetDestination(player.position);
-        transform.LookAt(player);
+
         if (!alreadyAttacked)
         {
+            // Calculate the direction to the player on the x-z plane (y-axis is ignored)
+            Vector3 directionToPlayer = player.position - transform.position;
+            directionToPlayer.y = 0; // Ignore the y-axis
+
+            // Create a rotation based on the direction to the player
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+
+            // Apply the rotation to the enemy's transform
+            transform.rotation = lookRotation;
+
             // Move the enemy towards the player with a sudden burst of speed
             agent.velocity = transform.forward * LungeSpeed;
-            
-            // Add a vertical force to make the enemy jump
-            Rigidbody enemyRigidbody = GetComponent<Rigidbody>();
-            enemyRigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+
             StartCoroutine(PlayAttackAnim());
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -106,12 +113,12 @@ public class EnemyAI : MonoBehaviour
     }
 
 
+
     private IEnumerator PlayAttackAnim()
     {
         wolfAnimator.SetBool("isAttacking", true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(.8f);
         wolfAnimator.SetBool("isAttacking", false);
-
         
     }
 
