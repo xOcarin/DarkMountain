@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RescueeAudioScript : MonoBehaviour
@@ -18,8 +19,11 @@ public class RescueeAudioScript : MonoBehaviour
     {
         while (true)
         {
-            // Wait for the specified delay
-            yield return new WaitForSeconds(delay);
+            // Generate a random delay between 1 and 6 seconds
+            float randomDelay = Random.Range(3f, 10f);
+
+            // Wait for the random delay
+            yield return new WaitForSeconds(randomDelay);
 
             // Play the audio clip
             source.PlayOneShot(clip);

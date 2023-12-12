@@ -32,6 +32,8 @@ public class EnemyAI : MonoBehaviour
     public Animator wolfAnimator;
     public GameObject wolfModel;
 
+    public static bool isAttacking = false;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -42,6 +44,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        
         //check for sight or attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer); //syntax is (center, radius/range, layermask)
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer); //syntax is (center, radius/range, layermask)
@@ -105,6 +108,7 @@ public class EnemyAI : MonoBehaviour
 
             // Move the enemy towards the player with a sudden burst of speed
             agent.velocity = transform.forward * LungeSpeed;
+            WoldAudioHandler.PlayAttackNoise();
 
             StartCoroutine(PlayAttackAnim());
             alreadyAttacked = true;
@@ -116,10 +120,12 @@ public class EnemyAI : MonoBehaviour
 
     private IEnumerator PlayAttackAnim()
     {
+        isAttacking = true;
         wolfAnimator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(.8f);
         wolfAnimator.SetBool("isAttacking", false);
-        
+        isAttacking = false;
+
     }
 
     private void ResetAttack()

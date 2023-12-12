@@ -7,9 +7,12 @@ public class NpcInteract : MonoBehaviour
 {
     //public GameObject d_template;
     //public GameObject canvas;
+
+    public bool isFound;
     public void Interact()
     {
         Debug.Log("next to npc!");
+        isFound = true;
         //PlayerMovement.dialogue = true;
         //transform.GetChild(0).gameObject.SetActive(true);
     }
