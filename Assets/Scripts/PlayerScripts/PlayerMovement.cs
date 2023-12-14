@@ -45,79 +45,83 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 forward = playerCamera.transform.TransformDirection(Vector3.forward);
-        Vector3 right = playerCamera.transform.TransformDirection(Vector3.right);
-
-        bool isRunning = false;
-
-        float curSpeedX = 0;
-        float curSpeedY = 0;
-
-        isWalking = false;
-        
-
-        float inputVertical = Input.GetAxis("Vertical");
-        float inputHorizontal = Input.GetAxis("Horizontal");
-        if (canMove)
+        if (!dialogue)
         {
-            if ((inputVertical != 0 || inputHorizontal != 0 ))
+
+            Vector3 forward = playerCamera.transform.TransformDirection(Vector3.forward);
+            Vector3 right = playerCamera.transform.TransformDirection(Vector3.right);
+
+            bool isRunning = false;
+
+            float curSpeedX = 0;
+            float curSpeedY = 0;
+
+            isWalking = false;
+
+
+            float inputVertical = Input.GetAxis("Vertical");
+            float inputHorizontal = Input.GetAxis("Horizontal");
+            if (canMove)
             {
-                curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
-                curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
-                isWalking = true;
-                
+                if ((inputVertical != 0 || inputHorizontal != 0))
+                {
+                    curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * inputVertical : 0;
+                    curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * inputHorizontal : 0;
+                    isWalking = true;
+
+                }
+                else
+                {
+                    isWalking = false;
+                }
+            }
+
+
+
+
+
+
+            float movementDirectionY = moveDirection.y;
+            moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+
+            if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+            {
+                moveDirection.y = jumpPower;
             }
             else
             {
-                isWalking = false;
+                moveDirection.y = movementDirectionY;
             }
+
+            if (!characterController.isGrounded)
+            {
+                moveDirection.y -= gravity * Time.deltaTime;
+                isJumping = true;
+            }
+            else
+            {
+                isJumping = false;
+            }
+
+
+
+            characterAnimator.SetBool("isJumping", isJumping);
+            characterAnimator.SetBool("isWalking", isWalking);
+            characterAnimator.SetBool("isRunning", isRunning);
+            characterController.Move(moveDirection * Time.deltaTime);
+
+            //move player in different directions based on camera look direction
+            if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && canMove)
+            {
+                transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+                Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+                characterModel.transform.rotation = Quaternion.Slerp(characterModel.transform.rotation, newRotation,
+                    rotateSpeed * Time.deltaTime);
+            }
+
         }
 
-        
-        
-        
-        
-
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
-
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-            isJumping = true;
-        }
-        else
-        {
-            isJumping = false;
-        }
-        
-        
-        
-        characterAnimator.SetBool("isJumping", isJumping);
-        characterAnimator.SetBool("isWalking", isWalking);
-        characterAnimator.SetBool("isRunning", isRunning);
-        characterController.Move(moveDirection * Time.deltaTime);
-        
-        //move player in different directions based on camera look direction
-        if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && canMove)
-        {
-            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
-            Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
-            characterModel.transform.rotation = Quaternion.Slerp(characterModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
-        }
-        
-        
-        
-    }
+}
 
 
 }

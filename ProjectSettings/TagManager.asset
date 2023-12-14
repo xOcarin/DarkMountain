@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Bird
   - NPC
+  - PlayerFlare
+  - FlarePowerUp
   layers:
   - Default
   - TransparentFX
