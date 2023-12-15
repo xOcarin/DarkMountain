@@ -50,8 +50,18 @@ public class EnemyAI : MonoBehaviour
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer); //syntax is (center, radius/range, layermask)
         if(!playerInSightRange && !playerInAttackRange){Patroling();}
         //Debug.Log("In sight range?: " + playerInSightRange);
-        if(playerInSightRange && !playerInAttackRange){ChasePlayer();}
-        if(playerInSightRange && playerInAttackRange){AttackPlayer();}
+        if (!PlayerItemHandler.hasFlare)
+        {
+            if(playerInSightRange && !playerInAttackRange){ChasePlayer();}
+            if(playerInSightRange && playerInAttackRange){AttackPlayer();}
+        }
+        else
+        {
+            if(playerInSightRange && !playerInAttackRange){RunAwayFromPlayer();}
+            if(playerInSightRange && playerInAttackRange){RunAwayFromPlayer();}
+        }
+        
+        
     }
 
 
@@ -115,6 +125,7 @@ public class EnemyAI : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
+    
 
 
 
@@ -131,6 +142,31 @@ public class EnemyAI : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+    
+    
+    
+    bool ShouldRunAway()
+    {
+        // Implement your logic to determine whether the enemy should run away
+        // For example, you can check the distance between the enemy and the player
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        return distanceToPlayer < 10f;  // Adjust the distance as needed
+    }
+
+    void RunAwayFromPlayer()
+    {
+        // Calculate the direction opposite to the player's position
+        Vector3 runDirection = transform.position - player.position;
+
+        // Normalize the direction to get a unit vector
+        runDirection.Normalize();
+
+        // Calculate the destination point away from the player
+        Vector3 runDestination = transform.position + runDirection * 10f;  // Adjust the distance as needed
+
+        // Set the destination for the NavMeshAgent
+        agent.SetDestination(runDestination);
     }
     
 }

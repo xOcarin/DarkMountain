@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController characterController;
+    
+    
+    
 
     public static bool canMove = true;
     
@@ -31,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     
     public static bool isWalking = false;
     public static bool isJumping;
+    public static bool isOnGround;
     
     
 
@@ -76,13 +80,15 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-
+            isOnGround = characterController.isGrounded;
 
 
 
 
             float movementDirectionY = moveDirection.y;
             moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+            
+            
 
             if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
             {

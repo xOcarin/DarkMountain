@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerItemHandler : MonoBehaviour
 {
     public static bool hasFlare;
-    public static int flaresGiven;
+    public static int flaresGiven = 0;
 
     private GameObject flare;
 
@@ -31,7 +31,7 @@ public class PlayerItemHandler : MonoBehaviour
         {
             flare.SetActive(false);
             
-            if (RenderSettings.fogDensity <= .12f)
+            if (RenderSettings.fogDensity <= .18f)
             {
                 RenderSettings.fogDensity += .001f;
             }
@@ -43,6 +43,7 @@ public class PlayerItemHandler : MonoBehaviour
     {
         if (other.CompareTag("FlarePowerUp") && !hasFlare)
         {
+            playerAudioHandler.ItemGetSound();
             other.gameObject.SetActive(false);
             hasFlare = true;
         }

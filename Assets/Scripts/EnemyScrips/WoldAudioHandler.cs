@@ -25,7 +25,6 @@ public class WoldAudioHandler : MonoBehaviour
         //Debug.Log(PlayerMovement.isJumping);
         if (!EnemyAI.isAttacking && !audioSource1.isPlaying)
         {
-            Debug.Log("WALKING NOISE!!!!!!");
             audioSource1.Play();
         }
         else if (EnemyAI.isAttacking)

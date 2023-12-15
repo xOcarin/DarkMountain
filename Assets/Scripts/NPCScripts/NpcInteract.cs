@@ -14,40 +14,75 @@ public class NpcInteract : MonoBehaviour
     
     private Animator npcAnimator;
     public GameObject npcModel;
-
-
+    
+    private GameObject notif;
+    
+    [SerializeField]
+    private GameObject flareText;
+    
+    
+    
+    
+    public AudioSource noFlareNoise;
+    
+    
 
     void Start()
     {
         npcAnimator = npcModel.GetComponent<Animator>();
-
     }
+    
+    
+    
     public void Interact()
     {
-        Debug.Log("next to npc!");
-        isFound = true;
+        Debug.Log(PlayerInteract.isFound);
         if (PlayerItemHandler.hasFlare == true)
         {
+            
             PlayerItemHandler.flaresGiven++;
             PlayerItemHandler.hasFlare = false;
             transform.LookAt(player);
+            Vector3 newRotation = transform.eulerAngles;
+            newRotation.z = 0f;
+            newRotation.x = 0f;
+            transform.eulerAngles = newRotation;
+            StartCoroutine(SetInteractTimeout());
+            
             //StartCoroutine(SetDialoguePause());
             StartCoroutine(PlayRescueAnimation());
         }
         else
         {
-            //play error sound
+            noFlareNoise.PlayOneShot(noFlareNoise.clip, 1.0f);
+            StartCoroutine(NoFlarePopUp());
         }
         
         
         
     }
 
+    private IEnumerator NoFlarePopUp()
+    {
+        flareText.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        flareText.SetActive(false);
+    }
+
+    private IEnumerator SetInteractTimeout()
+    {
+        PlayerInteract.isFound = true;
+        Debug.Log("TRUE!!!!");
+        yield return new WaitForSeconds(3.2f);
+        PlayerInteract.isFound = false;
+    }
+
     private IEnumerator PlayRescueAnimation()
     {
-        Debug.Log("HIT");
+        npcAnimator.SetBool("NPCShiver", false);
         npcAnimator.SetBool("NPCIdle", true);
         yield return new WaitForSeconds(2f);
+        
         npcAnimator.SetBool("NPCRescue", true);
         yield return new WaitForSeconds(1.2f);
         gameObject.SetActive(false);

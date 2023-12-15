@@ -48,6 +48,12 @@ public class HealthScript : MonoBehaviour
         {
             canvas.transform.GetChild(2).gameObject.SetActive(false);
         }
+
+        if (RescueeAudioScript.levelOver)
+        {
+            
+        }
+        
         
         
         
@@ -60,6 +66,7 @@ public class HealthScript : MonoBehaviour
         
         if (other.CompareTag("Bird") && !invulnerable)
         {
+            playerAudioHandler.Hurt();
             characterAnimator.SetBool("isHurt", true);
             playerHealth--;
             Debug.Log("Health: " + playerHealth);

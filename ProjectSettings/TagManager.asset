@@ -9,6 +9,7 @@ TagManager:
   - NPC
   - PlayerFlare
   - FlarePowerUp
+  - notif
   layers:
   - Default
   - TransparentFX
