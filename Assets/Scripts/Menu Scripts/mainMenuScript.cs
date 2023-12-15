@@ -25,7 +25,7 @@ public class mainMenuScript : MonoBehaviour
     private void LoadNextScene()
     {
         canvasAnimator.SetBool("buttonPressed", true);
-        Invoke("NextOne", 1f);
+        Invoke("NextOne", 13.2f);
     }
 
     private void NextOne()

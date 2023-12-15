@@ -28,6 +28,7 @@ public class RescueeAudioScript : MonoBehaviour
         // Start the coroutine
         npcAnimator = npcModel.GetComponent<Animator>();
         StartCoroutine(PlayAudioWithDelay());
+        levelOver = false;
     }
 
     public IEnumerator PlayAudioWithDelay()

@@ -13,6 +13,7 @@ public class PlayerItemHandler : MonoBehaviour
     {
         flare = GameObject.FindWithTag("PlayerFlare");
         flare.SetActive(true);
+        flaresGiven = 0;
     }
     
     void Update()

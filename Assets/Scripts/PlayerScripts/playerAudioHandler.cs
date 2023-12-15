@@ -13,7 +13,7 @@ public class playerAudioHandler : MonoBehaviour
     
     public static AudioSource jump;
     public static AudioSource hurt;
-    public static AudioSource music;
+    public AudioSource music;
 
     public static bool hasPlayed;
 
@@ -24,7 +24,7 @@ public class playerAudioHandler : MonoBehaviour
     {
         AudioSource[] audioSources = GetComponents<AudioSource>();
         
-        music.Play();
+        music.PlayOneShot(music.clip);
         if (audioSources.Length >= 2)
         {
             audioSource2 = audioSources[1];
@@ -36,8 +36,8 @@ public class playerAudioHandler : MonoBehaviour
     
     void Update()
     {
+
         
-        //Debug.Log(PlayerMovement.isJumping);
         if (PlayerMovement.isWalking && !audioSource1.isPlaying && !PlayerMovement.isJumping && PlayerItemHandler.flaresGiven < 3)
         {
             audioSource1.Play();
@@ -54,7 +54,10 @@ public class playerAudioHandler : MonoBehaviour
                 jump.PlayOneShot(jump.clip);
             }
         }*/
-        
+        if (RescueeAudioScript.levelOver)
+        {
+            audioSource1.Stop();
+        }
     }
 
     private IEnumerator StartTimer()

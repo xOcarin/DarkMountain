@@ -105,6 +105,7 @@ public class levelCompleteScript : MonoBehaviour
             freeLookCamera.enabled = false;
             if (Input.GetButton("Jump"))
             {
+                HealthScript.playerHealth = 3;
                 SceneManager.LoadScene("level2");
             }
         }

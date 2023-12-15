@@ -37,16 +37,25 @@ public class HealthScript : MonoBehaviour
 
     void Update()
     {
-        
 
-
+        if (playerHealth == 3)
+        {
+            canvas.transform.GetChild(1).gameObject.SetActive(true);
+            canvas.transform.GetChild(2).gameObject.SetActive(true);
+            canvas.transform.GetChild(3).gameObject.SetActive(true);
+        }
         if (playerHealth == 2)
         {
+            canvas.transform.GetChild(1).gameObject.SetActive(true);
+            canvas.transform.GetChild(2).gameObject.SetActive(true);
             canvas.transform.GetChild(3).gameObject.SetActive(false);
+            
         }
         if (playerHealth == 1)
         {
+            canvas.transform.GetChild(1).gameObject.SetActive(true);
             canvas.transform.GetChild(2).gameObject.SetActive(false);
+            canvas.transform.GetChild(3).gameObject.SetActive(false);
         }
 
         if (RescueeAudioScript.levelOver)
@@ -79,7 +88,6 @@ public class HealthScript : MonoBehaviour
         }
         if (other.CompareTag("water"))
         {
-            Debug.Log("HELLo");
             playerHealth = 0;
         }
         

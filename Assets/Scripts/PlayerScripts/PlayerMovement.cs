@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        dialogue = false;
+        isWalking = true;
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
