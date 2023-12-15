@@ -60,8 +60,7 @@ public class gathererScript : MonoBehaviour
     
     void TransitionToNewScene()
     {
-        // Replace "YourSceneName" with the name of the scene you want to transition to
-        SceneManager.LoadScene("YourSceneName");
+        
     }
     
     

@@ -16,6 +16,7 @@ public class DeathScript : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("d script health: " + HealthScript.playerHealth);
         if(HealthScript.playerHealth < 1)
         {
             canvasAnimator.Play("DeathScreen");

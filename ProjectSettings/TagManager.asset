@@ -10,6 +10,7 @@ TagManager:
   - PlayerFlare
   - FlarePowerUp
   - notif
+  - water
   layers:
   - Default
   - TransparentFX

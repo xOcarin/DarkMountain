@@ -13,6 +13,7 @@ public class playerAudioHandler : MonoBehaviour
     
     public static AudioSource jump;
     public static AudioSource hurt;
+    public static AudioSource music;
 
     public static bool hasPlayed;
 
@@ -23,6 +24,7 @@ public class playerAudioHandler : MonoBehaviour
     {
         AudioSource[] audioSources = GetComponents<AudioSource>();
         
+        music.Play();
         if (audioSources.Length >= 2)
         {
             audioSource2 = audioSources[1];

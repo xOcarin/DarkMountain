@@ -77,6 +77,12 @@ public class HealthScript : MonoBehaviour
             StartCoroutine(StopMovement());
 
         }
+        if (other.CompareTag("water"))
+        {
+            Debug.Log("HELLo");
+            playerHealth = 0;
+        }
+        
     }
     
 
